@@ -1,25 +1,46 @@
 <!DOCTYPE html>
+<html lang="de">
 <head>
-	<title>HTML and CSS "Hello World"</title>
-	<style>
-		body {
-			background-color: #2D2D2D;
-		}
-		
-		h1 {
-			color: #C26356;
-			font-size: 30px;
-			font-family: Menlo, Monaco, fixed-width;
-		}
-		
-		p {
-			color: white;
-			font-family: "Source Code Pro", Menlo, Monaco, fixed-width;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <title>Pez's Case Simulator</title>
+    <link rel="stylesheet" media="all" href="PezsCaseSimulator.css">
+    <style>
+
+    </style>
 </head>
 <body>
-	<h1>Hello World Example</h1>
-	<p>This is a very basic "Hello World" example made up in HTML and CSS. See if you can change the size of the header text above.</p>
+    <div id="laufband_background">
+        <div id="laufband"></div>
+        <div id="laufband_zeiger"></div>
+    </div>
+
+    <div id="inv_flexContainer"></div>
+
+    <div id="inv_itemDetails" onclick="openItemDetails()">
+        <b>Farben:</b><br>
+        <div id="color0"></div>
+        <div id="color1"></div>
+        <div id="color2"></div>
+        <div id="color3"></div>
+        <div id="color4"></div>
+        <div id="color5"></div>
+        <div id="color6"></div>
+        <div id="color7"></div>
+        <div id="color8"></div>
+        <div id="color9"></div>
+        <div id="color10"></div>
+        <div id="color11"></div>
+        <div id="color12"></div>
+        <div id="color13"></div>
+        <div id="color14"></div>
+        <br>
+        <div id="certified"></div>
+    </div>
+
+    <div id="kistenInv_flexContainer">
+        <div class="kistenInv_flexItem" onclick="roll(new Kiste(1, 'Kiste1', [new Item1(0, false), new Item2(0, false), new Item3(0, false), new Item4(0, false), new Item5(0, false)]))">Kiste1</div>
+    </div>
+
+    <script src="PezsCaseSimulator.js"></script>
 </body>
 </html>
