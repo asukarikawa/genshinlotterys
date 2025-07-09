@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pez's Case Simulator</title>
-    <link rel="stylesheet" media="all" href="style.css">
-    <style>
-
-    </style>
+    <title>Sloty</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
 </head>
-
 <body>
-    <div class="raffle-roller">
-        <div class="raffle-roller-holder">
-            <div class="raffle-roller-container" style="margin-left: 0px;">
+
+<div id="container">
+    <div class="window-border">
+        <div class="window">
+            <div class="outer-spacer"></div>
+            <div class="outer-col">
+                <div class="col"></div>
             </div>
+            <div class="outer-spacer"></div>
+            <div class="outer-col">
+                <div class="col"></div>
+            </div>
+            <div class="outer-spacer"></div>
+            <div class="outer-col">
+                <div class="col"></div>
+            </div>
+            <div class="outer-spacer"></div>
         </div>
     </div>
-    <center>
-        <span style="font-size: 25px;">You winning is <span style="color: green;" id="rolled">rolling</span>
-            <br>
-            <button onclick="generate();">go</button>
-        </span>
-    </center>
-    <br>
-    <div class="inventory"></div>
 
-    <script src="script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <input type="button" onclick="spin(this)" class="start-button" value="Spin"/>
+</div>
+
 </body>
-
 </html>

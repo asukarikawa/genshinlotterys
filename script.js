@@ -1,58 +1,142 @@
-var items = {
-	simple: {
-		skin: "M4A1-S | Cyrex",
-		img: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_m4a1_silencer_cu_m4a1s_cyrex_light_large.144b4053eb73b4a47f8128ebb0e808d8e28f5b9c.png"
-	},
-	middle: {
-		skin: "M4A1-S | Chantico's Fire",
-		img: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-6kejhz2v_Nfz5H_uO1gb-Gw_alIITCmX5d_MR6j_v--YXygED6_UZrMTzwJYSdJlU8N1zY81TrxO_v0MW9uJnBm3Rk7nEk5XfUmEeyhQYMMLIUhCYx0A"
-	},
-	super: {
-		skin: "M4A4 | Asiimov",
-		img: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_m4a1_cu_m4_asimov_light_large.af03179f3d43ff55b0c3d114c537eac77abdb6cf.png"
-	}
-};
-function generate() {
-	$('.raffle-roller-container').css({
-		transition: "all 5s cubic-bezier(.08,.6,0,1)",
-		"margin-left": "0px"
-	}, 10).html('');
-	var randed2 = randomInt(1, 3);
-	for (var i = 0; i < 101; i++) {
-		var element = '<div id="CardNumber' + i + '" class="item class_red_item" style="background-image:url(' + items.simple.img + ');"></div>';
-		var randed = randomInt(1, 1000);
-		if (randed < 50) {
-			element = '<div id="CardNumber' + i + '" class="item class_red_item" style="background-image:url(' + items.super.img + ');"></div>';
-		} else if (500 < randed) {
-			element = '<div id="CardNumber' + i + '" class="item class_red_item" style="background-image:url(' + items.middle.img + ');"></div>';
-		}
-		$(element).appendTo('.raffle-roller-container');
-	}
-	setTimeout(function () {
-		if (randed2 == 2) {
-			goRoll(items.middle.skin, items.middle.img);
-		} else if (randed2 == 1) {
-			goRoll(items.super.skin, items.super.img);
-		} else {
-			goRoll(items.simple.skin, items.simple.img);
-		}
-	}, 500);
+const ICONS = [
+    'apple', 'apricot', 'banana', 'big_win', 'cherry', 'grapes', 'lemon', 'lucky_seven', 'orange', 'pear', 'strawberry', 'watermelon',
+];
+
+/**
+ * @type {number} The minimum spin time in seconds
+ */
+const BASE_SPINNING_DURATION = 2.7;
+
+/**
+ * @type {number} The additional duration to the base duration for each row (in seconds).
+ * It makes the typical effect that the first reel ends, then the second, and so on...
+ */
+const COLUMN_SPINNING_DURATION = 0.3;
+
+
+var cols;
+
+
+window.addEventListener('DOMContentLoaded', function(event) {
+    cols = document.querySelectorAll('.col');
+
+    setInitialItems();
+});
+
+function setInitialItems() {
+    let baseItemAmount = 40;
+
+    for (let i = 0; i < cols.length; ++i) {
+        let col = cols[i];
+        let amountOfItems = baseItemAmount + (i * 3); // Increment the amount for each column
+        let elms = '';
+        let firstThreeElms = '';
+
+        for (let x = 0; x < amountOfItems; x++) {
+            let icon = getRandomIcon();
+            let item = '<div class="icon" data-item="' + icon + '"><img src="items/' + icon + '.png"></div>';
+            elms += item;
+
+            if (x < 3) firstThreeElms += item; // Backup the first three items because the last three must be the same
+        }
+        col.innerHTML = elms + firstThreeElms;
+    }
 }
-function goRoll(skin, skinimg) {
-	$('.raffle-roller-container').css({
-		transition: "all 5s cubic-bezier(.08,.6,0,1)"
-	});
-	$('#CardNumber78').css({
-		"background-image": "url(" + skinimg + ")"
-	});
-	setTimeout(function () {
-		$('#CardNumber78').addClass('winning-item');
-		$('#rolled').html(skin);
-		var win_element = "<div class='item class_red_item' style='background-image: url(" + skinimg + ")'></div>";
-		$(win_element).appendTo('.inventory');
-	}, 5500);
-	$('.raffle-roller-container').css('margin-left', '-6770px');
+
+/**
+ * Called when the start-button is pressed.
+ *
+ * @param elem The button itself
+ */
+function spin(elem) {
+    let duration = BASE_SPINNING_DURATION + randomDuration();
+
+    for (let col of cols) { // set the animation duration for each column
+        duration += COLUMN_SPINNING_DURATION + randomDuration();
+        col.style.animationDuration = duration + "s";
+    }
+
+    // disable the start-button
+    elem.setAttribute('disabled', true);
+
+    // set the spinning class so the css animation starts to play
+    document.getElementById('container').classList.add('spinning');
+
+    // set the result delayed
+    // this would be the right place to request the combination from the server
+    window.setTimeout(setResultsSevens, BASE_SPINNING_DURATION * 1000 / 2);
+
+    window.setTimeout(function () {
+        // after the spinning is done, remove the class and enable the button again
+        document.getElementById('container').classList.remove('spinning');
+        elem.removeAttribute('disabled');
+
+        // Show alert with the items on the row after animation ends
+        let resultItems = [];
+        for (let col of cols) {
+            let icons = col.querySelectorAll('.icon img');
+            // The visible row is the first icon in each column
+            let src = icons[0].getAttribute('src');
+            // Extract the item name from the src (e.g., items/apple.png -> apple)
+            let match = src.match(/items\/(.+)\.png/);
+            resultItems.push(match ? match[1] : src);
+        }
+        console.log('Result: ' + resultItems.join(' | '));
+    }.bind(elem), duration * 1000);
 }
-function randomInt(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+
+/**
+ * Sets the result items at the beginning and the end of the columns
+ */
+function setResult() {
+    for (let col of cols) {
+
+        // generate 3 random items
+        let results = [
+            getRandomIcon(),
+            getRandomIcon(),
+            getRandomIcon()
+        ];
+
+        console.log('Generated items: ' + results.join(' | '));
+
+        let icons = col.querySelectorAll('.icon img');
+        // replace the first and last three items of each column with the generated items
+        for (let x = 0; x < 3; x++) {
+            icons[x].setAttribute('src', 'items/' + results[x] + '.png');
+            icons[(icons.length - 3) + x].setAttribute('src', 'items/' + results[x] + '.png');
+        }
+    }
+}
+
+
+function setResultsSevens() {
+    for (let col of cols) {
+        // generate 3 lucky sevens
+        let results = [
+            'lucky_seven',
+            getRandomIcon(),
+            getRandomIcon()
+        ];
+
+        console.log('Generated items: ' + results.join(' | '));
+
+        let icons = col.querySelectorAll('.icon img');
+        // replace the first and last three items of each column with the generated items
+        for (let x = 0; x < 3; x++) {
+            icons[x].setAttribute('src', 'items/' + results[x] + '.png');
+            icons[(icons.length - 3) + x].setAttribute('src', 'items/' + results[x] + '.png');
+        }
+    }
+}
+
+function getRandomIcon() {
+    return ICONS[Math.floor(Math.random() * ICONS.length)];
+}
+
+/**
+ * @returns {number} 0.00 to 0.09 inclusive
+ */
+function randomDuration() {
+    return Math.floor(Math.random() * 10) / 100;
 }
