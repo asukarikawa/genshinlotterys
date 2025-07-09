@@ -1,46 +1,34 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pez's Case Simulator</title>
-    <link rel="stylesheet" media="all" href="PezsCaseSimulator.css">
+    <link rel="stylesheet" media="all" href="style.css">
     <style>
 
     </style>
 </head>
+
 <body>
-    <div id="laufband_background">
-        <div id="laufband"></div>
-        <div id="laufband_zeiger"></div>
+    <div class="raffle-roller">
+        <div class="raffle-roller-holder">
+            <div class="raffle-roller-container" style="margin-left: 0px;">
+            </div>
+        </div>
     </div>
+    <center>
+        <span style="font-size: 25px;">You winning is <span style="color: green;" id="rolled">rolling</span>
+            <br>
+            <button onclick="generate();">go</button>
+        </span>
+    </center>
+    <br>
+    <div class="inventory"></div>
 
-    <div id="inv_flexContainer"></div>
-
-    <div id="inv_itemDetails" onclick="openItemDetails()">
-        <b>Farben:</b><br>
-        <div id="color0"></div>
-        <div id="color1"></div>
-        <div id="color2"></div>
-        <div id="color3"></div>
-        <div id="color4"></div>
-        <div id="color5"></div>
-        <div id="color6"></div>
-        <div id="color7"></div>
-        <div id="color8"></div>
-        <div id="color9"></div>
-        <div id="color10"></div>
-        <div id="color11"></div>
-        <div id="color12"></div>
-        <div id="color13"></div>
-        <div id="color14"></div>
-        <br>
-        <div id="certified"></div>
-    </div>
-
-    <div id="kistenInv_flexContainer">
-        <div class="kistenInv_flexItem" onclick="roll(new Kiste(1, 'Kiste1', [new Item1(0, false), new Item2(0, false), new Item3(0, false), new Item4(0, false), new Item5(0, false)]))">Kiste1</div>
-    </div>
-
-    <script src="PezsCaseSimulator.js"></script>
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+
 </html>
