@@ -17,7 +17,7 @@ const COLUMN_SPINNING_DURATION = 0.3;
 var cols;
 
 
-window.addEventListener('DOMContentLoaded', function(event) {
+window.addEventListener('DOMContentLoaded', function (event) {
     cols = document.querySelectorAll('.col');
 
     setInitialItems();
@@ -81,8 +81,12 @@ function spin(elem) {
             let match = src.match(/items\/(.+)\.png/);
             resultItems.push(match ? match[1] : src);
         }
+        setTimeout(() => {
+            showWelkinMoonAlert();
+        }, 2000);
         console.log('Result: ' + resultItems.join(' | '));
     }.bind(elem), duration * 1000);
+
 }
 
 /**
@@ -127,6 +131,45 @@ function setWelkinMoon() {
             icons[x].setAttribute('src', 'items/' + results[x] + '.png');
             icons[(icons.length - 3) + x].setAttribute('src', 'items/' + results[x] + '.png');
         }
+    }
+}
+
+// Custom Alert
+function showWelkinMoonAlert() {
+    // If already exists, don't add again
+    if (document.getElementById('welkin-alert')) return;
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'welkin-alert-overlay';
+    overlay.className = 'custom-alert-overlay';
+    document.body.appendChild(overlay);
+
+    const alertDiv = document.createElement('div');
+    alertDiv.id = 'welkin-alert';
+    alertDiv.className = 'custom-alert';
+    alertDiv.innerHTML = `
+        <button class="alert-close" aria-label="Close">×</button>
+        <div class="alert-content">
+            <img src="items/welkin_moon.png" alt="Welkin Moon" class="alert-icon">
+            <div class="alert-text">You won a Welkin-Moon!</div>
+        </div>
+        <button class="alert-ok">OK</button>
+    `;
+    document.body.appendChild(alertDiv);
+
+    // Close handlers
+    alertDiv.querySelector('.alert-close').onclick = closeAlert;
+    alertDiv.querySelector('.alert-ok').onclick = closeAlert;
+    overlay.onclick = closeAlert;
+
+    function closeAlert() {
+        alertDiv.classList.add('hide');
+        overlay.classList.add('hide');
+        setTimeout(() => {
+            alertDiv.remove();
+            overlay.remove();
+        }, 200);
     }
 }
 
