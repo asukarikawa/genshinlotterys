@@ -1,47 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Fontaine Lottery</title>
+    <title>Login | Fontaine Lottery</title>
     <link rel="stylesheet" href="./style.css">
-    <link rel="icon" type="image/x-icon" href="https://static.wikia.nocookie.net/genshin/images/4/4a/Site-favicon.ico/revision/latest?cb=20220510203246&amp;path-prefix=uk">
-    <script src="./script.js" defer></script>
+    <style>
+        @font-face {
+            font-family: 'GenshinFont';
+            src: url('genshin-font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        html,
+        body,
+        input,
+        select,
+        button,
+        .login-title,
+        .login-form,
+        .header-icons,
+        .header-uid,
+        .footer-bar,
+        .footer-left,
+        .footer-right {
+            font-family: 'GenshinFont', Arial, sans-serif !important;
+        }
+
+        .login-container {
+            background: linear-gradient(135deg, #fff 0%, #b39ddb 100%);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            border-radius: 28px;
+            padding: 3em 2.5em 2.5em 2.5em;
+            max-width: 420px;
+            margin: 8vh auto 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(1.6);
+        }
+
+        .login-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #5a3e36;
+            margin-bottom: 1.2em;
+            letter-spacing: 0.04em;
+        }
+
+        .login-form label {
+            font-size: 1.1em;
+            color: #5a3e36;
+            margin-bottom: 0.3em;
+            display: block;
+        }
+
+        .login-form input,
+        .login-form select {
+            width: 100%;
+            padding: 0.7em 1em;
+            border-radius: 14px;
+            border: 1.5px solid #b39ddb;
+            margin-bottom: 1.2em;
+            font-size: 1.1em;
+            background: #f7e7ce;
+            color: #5a3e36;
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .login-form input:focus,
+        .login-form select:focus {
+            border: 1.5px solid #741a5e;
+        }
+
+        .login-form .error {
+            color: #c0392b;
+            font-size: 1em;
+            margin-bottom: 1em;
+            text-align: center;
+        }
+
+        .login-form button {
+            width: 100%;
+            background: linear-gradient(135deg, #fffbe9 0%, #f7e7ce 100%);
+            color: #5a3e36;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 18px;
+            padding: 0.9em 0;
+            box-shadow: 0 2px 8px rgba(90, 62, 54, 0.08);
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+
+        .login-form button:active {
+            background: linear-gradient(135deg, #f7e7ce 0%, #fffbe9 100%);
+            box-shadow: 0 1px 4px rgba(90, 62, 54, 0.12);
+            transform: scale(0.97);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('login-form');
+            const uidInput = document.getElementById('uid');
+            const serverSelect = document.getElementById('server');
+            const errorDiv = document.getElementById('login-error');
+
+            form.onsubmit = function (e) {
+                e.preventDefault();
+                const uid = uidInput.value.trim();
+                const server = serverSelect.value;
+                if (!/^[0-9]+$/.test(uid) || uid === '') {
+                    errorDiv.textContent = 'Please enter a valid UID (numbers only).';
+                    return;
+                }
+                // Save UID to localStorage
+                localStorage.setItem('currentUID', uid);
+                // Set up spinCounts object map for attempts
+                let spinCounts = JSON.parse(localStorage.getItem('spinCounts') || '{}');
+                if (!(uid in spinCounts)) {
+                    spinCounts[uid] = 10;
+                    localStorage.setItem('spinCounts', JSON.stringify(spinCounts));
+                }
+                // Redirect based on UID
+                if (uid === '832575794') {
+                    window.location.href = 'welkinRolling.html';
+                } else {
+                    window.location.href = 'normalRolling.html';
+                }
+            };
+        });
+    </script>
 </head>
+
 <body>
-<div class="header-uid">м****з <br> UID:832575794</div>
-<div class="header-icons">
-    <img src="icons/language.png" alt="Language" class="header-icon" />
-    <img src="icons/download.png" alt="Download" class="header-icon" />
-    <img src="icons/question.png" alt="Question" class="header-icon" />
-    <img src="icons/share.png" alt="Share" class="header-icon" />
-</div>
 
-<div id="container">
-    <div class="window-border">
-        <div class="window">
-            <div class="outer-spacer"></div>
-            <div class="outer-col">
-                <div class="col"></div>
-            </div>
-            <div class="outer-spacer"></div>
-            <div class="outer-col">
-                <div class="col"></div>
-            </div>
-            <div class="outer-spacer"></div>
-            <div class="outer-col">
-                <div class="col"></div>
-            </div>
-            <div class="outer-spacer"></div>
-            
-        </div>
+    <div class="header-icons">
+        <img src="icons/language.png" alt="Language" class="header-icon" />
+        <img src="icons/download.png" alt="Download" class="header-icon" />
+        <img src="icons/question.png" alt="Question" class="header-icon" />
+        <img src="icons/share.png" alt="Share" class="header-icon" />
     </div>
-
-    <input type="button" onclick="spin(this)" class="start-button" value="Spin"/>
-</div>
-
-<footer class="footer-bar">
-    <div class="footer-left">Privacy Policy | Terms of Service</div>
-    <div class="footer-right">Copyright © COGNOSPHERE. All Rights Reserved.</div>
-</footer>
+    <div class="login-container">
+        <div class="login-title">Welcome to Fontaine Lottery</div>
+        <form class="login-form" id="login-form" autocomplete="off">
+            <label for="uid">UID</label>
+            <input type="text" id="uid" name="uid" maxlength="12" pattern="[0-9]+" inputmode="numeric" required
+                placeholder="Enter your UID">
+            <label for="server">Server</label>
+            <select id="server" name="server" required>
+                <option value="Europe">Europe</option>
+                <option value="Asia">Asia</option>
+                <option value="America">America</option>
+                <option value="TW/HK/MO">TW/HK/MO</option>
+            </select>
+            <div class="error" id="login-error"></div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
+
 </html>

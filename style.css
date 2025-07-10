@@ -2,6 +2,13 @@
  * Some general styling
  */
 
+@font-face {
+    font-family: 'GenshinFont';
+    src: url('genshin-font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -18,6 +25,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+html, body, input, select, button, .login-title, .login-form, .header-icons, .header-uid, .footer-bar, .footer-left, .footer-right {
+    font-family: 'GenshinFont', Arial, sans-serif !important;
 }
 
 .header-uid {
@@ -245,7 +256,7 @@ body {
     justify-content: space-between;
     align-items: flex-end;
     padding: 1vw 2vw 0.7vw 2vw;
-    font-size: 2.5vw;
+    font-size: 2vw;
     color: #e0d8f7;
     background: none;
     pointer-events: none;
