@@ -192,3 +192,47 @@ body {
         transform: rotate(7deg);
     }
 }*/
+
+@media (max-width: 600px) {
+  :root {
+    --item-height: 70px;
+  }
+  body {
+    font-size: 18px;
+    padding: 0;
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+  #container {
+    padding: 10vw 2vw;
+    max-width: 100vw;
+    border-radius: 18px;
+  }
+  .window {
+    height: calc(var(--item-height) * 1.2);
+    border-radius: 12px;
+  }
+  .window-border {
+    padding: 2vw;
+    border-radius: 16px;
+  }
+  .icon {
+    width: 60px;
+    height: var(--item-height);
+  }
+  .outer-col {
+    width: 70px;
+    height: calc(var(--item-height) * 3);
+  }
+  .outer-spacer {
+    width: 4px;
+  }
+  .col img {
+    margin: 4px 0;
+  }
+  .start-button {
+    font-size: 1.1em;
+    padding: 0.6em 1.5em;
+    border-radius: 12px;
+  }
+}
