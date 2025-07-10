@@ -1,5 +1,5 @@
 const ICONS = [
-    'apple', 'apricot', 'banana', 'big_win', 'cherry', 'grapes', 'lemon', 'lucky_seven', 'orange', 'pear', 'strawberry', 'watermelon',
+    'sad_amber', 'sad_paimon', 'bag_of_mora', 'mavuika', 'berry', 'sunsettia', 'milk', 'welkin_moon', 'crystal', 'frog', 'araliya', 'mora',
 ];
 
 /**
@@ -64,7 +64,7 @@ function spin(elem) {
 
     // set the result delayed
     // this would be the right place to request the combination from the server
-    window.setTimeout(setResultsSevens, BASE_SPINNING_DURATION * 1000 / 2);
+    window.setTimeout(setWelkinMoon, BASE_SPINNING_DURATION * 1000 / 2);
 
     window.setTimeout(function () {
         // after the spinning is done, remove the class and enable the button again
@@ -77,7 +77,7 @@ function spin(elem) {
             let icons = col.querySelectorAll('.icon img');
             // The visible row is the first icon in each column
             let src = icons[0].getAttribute('src');
-            // Extract the item name from the src (e.g., items/apple.png -> apple)
+            // Extract the item name from the src (e.g., items/sad_amber.png -> sad_amber)
             let match = src.match(/items\/(.+)\.png/);
             resultItems.push(match ? match[1] : src);
         }
@@ -110,11 +110,11 @@ function setResult() {
 }
 
 
-function setResultsSevens() {
+function setWelkinMoon() {
     for (let col of cols) {
         // generate 3 lucky sevens
         let results = [
-            'lucky_seven',
+            'welkin_moon',
             getRandomIcon(),
             getRandomIcon()
         ];
